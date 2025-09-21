@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Edit3, Trash2, Save, X, Eye, Code, Image as ImageIcon, Link, ExternalLink } from "lucide-react";
+import { Plus, Edit3, Trash2, Save, Image as ImageIcon, Link, ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -24,7 +24,6 @@ interface AdminPanelProps {
 
 export function AdminPanel({ sections, onUpdateSections, onUpdateContent, activeSection, activeSubsection, currentContent }: AdminPanelProps) {
   const [editingSection, setEditingSection] = useState<string | null>(null);
-  const [editingSubsection, setEditingSubsection] = useState<string | null>(null);
   const [newSectionTitle, setNewSectionTitle] = useState("");
   const [newSubsectionTitle, setNewSubsectionTitle] = useState("");
 
@@ -397,13 +396,14 @@ function ContentEditor({ content, onSave }: { content?: DocumentContent; onSave:
                 {image.url && validateImageUrl(image.url) && (
                   <div className="bg-muted/50 mt-3 p-3 rounded-lg">
                     <p className="mb-2 font-medium text-sm">Vista previa:</p>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={image.url}
                       alt={image.alt || "Preview"}
                       className="border rounded max-w-full h-32 object-cover"
                       onError={(e) => {
                         e.currentTarget.style.display = "none";
-                        e.currentTarget.nextElementSibling!.style.display = "block";
+                        (e.currentTarget.nextElementSibling as HTMLElement)!.style.display = "block";
                       }}
                     />
                     <div className="hidden bg-muted p-2 rounded text-muted-foreground text-sm">No se pudo cargar la imagen</div>
@@ -419,7 +419,7 @@ function ContentEditor({ content, onSave }: { content?: DocumentContent; onSave:
               <CardContent className="p-6 text-center">
                 <ImageIcon className="mx-auto mb-2 size-8 text-muted-foreground" />
                 <p className="text-muted-foreground text-sm">No hay imágenes agregadas</p>
-                <p className="mt-1 text-muted-foreground text-xs">Haz clic en "Agregar Imagen" para comenzar</p>
+                <p className="mt-1 text-muted-foreground text-xs">Haz clic en &quot;Agregar Imagen&quot; para comenzar</p>
               </CardContent>
             </Card>
           )}
@@ -442,7 +442,7 @@ function ContentEditor({ content, onSave }: { content?: DocumentContent; onSave:
                   <strong>URLs directas:</strong> https://ejemplo.com/imagen.jpg
                 </p>
               </div>
-              <p className="mt-2 ml-6 text-muted-foreground text-xs">💡 Asegúrate de que las URLs sean públicas y accesibles</p>
+              <p className="mt-2 ml-6 text-muted-foreground text-xs">Asegúrate de que las URLs sean públicas y accesibles</p>
             </CardContent>
           </Card>
         </div>

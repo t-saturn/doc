@@ -131,6 +131,7 @@ export function ContentView({ section, subsection, content }: ContentViewProps) 
               <CardContent className="space-y-4">
                 {content.images.map((image, index) => (
                   <div key={index} className="space-y-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={image.url} alt={image.alt} className="border rounded-lg w-full" />
                     {image.caption && <p className="text-muted-foreground text-sm text-center">{image.caption}</p>}
                   </div>
