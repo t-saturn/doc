@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState } from "react";
 import { Plus, Edit3, Trash2, Save, Image as ImageIcon, Link, ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -10,8 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Separator } from "./ui/separator";
-import { DocumentSection, DocumentSubsection } from "@/components/sidebar";
 import { DocumentContent, CodeBlock, ImageContent } from "@/components/content-view";
+import { DocumentSection, DocumentSubsection } from "@/types/docs";
 
 interface AdminPanelProps {
   sections: DocumentSection[];
@@ -73,7 +74,7 @@ export function AdminPanel({ sections, onUpdateSections, onUpdateContent, active
       if (section.id === sectionId) {
         return {
           ...section,
-          subsections: section.subsections.filter((sub) => sub.id !== subsectionId),
+          subsections: section.subsections.filter((sub: { id: string }) => sub.id !== subsectionId),
         };
       }
       return section;
@@ -139,14 +140,47 @@ export function AdminPanel({ sections, onUpdateSections, onUpdateContent, active
                         </div>
 
                         <div className="space-y-2 pl-6">
-                          {section.subsections.map((subsection) => (
-                            <div key={subsection.id} className="flex justify-between items-center bg-muted/50 p-2 rounded">
-                              <span className="text-sm">{subsection.title}</span>
-                              <Button variant="ghost" size="sm" onClick={() => handleDeleteSubsection(section.id, subsection.id)}>
-                                <Trash2 className="size-3" />
-                              </Button>
-                            </div>
-                          ))}
+                          {section.subsections.map(
+                            (subsection: {
+                              id: Key | null | undefined;
+                              title:
+                                | string
+                                | number
+                                | bigint
+                                | boolean
+                                | ReactElement<unknown, string | JSXElementConstructor<any>>
+                                | Iterable<ReactNode>
+                                | ReactPortal
+                                | Promise<
+                                    | string
+                                    | number
+                                    | bigint
+                                    | boolean
+                                    | ReactPortal
+                                    | ReactElement<unknown, string | JSXElementConstructor<any>>
+                                    | Iterable<ReactNode>
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }) => (
+                              <div key={subsection.id} className="flex justify-between items-center bg-muted/50 p-2 rounded">
+                                <span className="text-sm">{subsection.title}</span>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => {
+                                    if (typeof subsection.id === "string") {
+                                      handleDeleteSubsection(section.id, subsection.id);
+                                    }
+                                  }}
+                                >
+                                  <Trash2 className="size-3" />
+                                </Button>
+                              </div>
+                            )
+                          )}
 
                           <div className="flex gap-2">
                             <Input

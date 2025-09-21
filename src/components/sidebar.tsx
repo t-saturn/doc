@@ -3,32 +3,25 @@ import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { cn } from "@/lib/utils";
+import { DocumentSection } from "@/types/docs";
 
-export interface DocumentSection {
-  id: string;
-  title: string;
-  color?: string;
-  order: number;
-  subsections: DocumentSubsection[];
-}
-
-export interface DocumentSubsection {
-  id: string;
-  title: string;
-  description?: string;
-  order: number;
-}
-
-interface SidebarProps {
+type SidebarProps = {
   sections: DocumentSection[];
   activeSection?: string;
   activeSubsection?: string;
   onSelectSubsection: (sectionId: string, subsectionId: string) => void;
   isOpen: boolean;
   onClose: () => void;
-}
+};
 
-export function Sidebar({ sections, activeSection, activeSubsection, onSelectSubsection, isOpen, onClose }: SidebarProps) {
+type SectionItemProps = {
+  section: DocumentSection;
+  isActive: boolean;
+  activeSubsection?: string;
+  onSelectSubsection: (sectionId: string, subsectionId: string) => void;
+};
+
+export const Sidebar = ({ sections, activeSection, activeSubsection, onSelectSubsection, isOpen, onClose }: SidebarProps) => {
   return (
     <>
       {isOpen && <div className="lg:hidden z-40 fixed inset-0 bg-black/20" onClick={onClose} />}
@@ -59,19 +52,9 @@ export function Sidebar({ sections, activeSection, activeSubsection, onSelectSub
       </aside>
     </>
   );
-}
+};
 
-function SectionItem({
-  section,
-  isActive,
-  activeSubsection,
-  onSelectSubsection,
-}: {
-  section: DocumentSection;
-  isActive: boolean;
-  activeSubsection?: string;
-  onSelectSubsection: (sectionId: string, subsectionId: string) => void;
-}) {
+const SectionItem: React.FC<SectionItemProps> = ({ section, isActive, activeSubsection, onSelectSubsection }) => {
   return (
     <Collapsible defaultOpen={isActive}>
       <CollapsibleTrigger asChild>
@@ -97,4 +80,4 @@ function SectionItem({
       </CollapsibleContent>
     </Collapsible>
   );
-}
+};

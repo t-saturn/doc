@@ -16,7 +16,6 @@ const ThemeContext = createContext<ThemeContextType | null>(null);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
 
-  // Carga inicial respetando localStorage o prefers-color-scheme
   useEffect(() => {
     const ls = ((): Theme | null => {
       try {
@@ -31,7 +30,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTheme(initial);
   }, []);
 
-  // Sincroniza la clase 'dark' y persiste en localStorage
   useEffect(() => {
     const root = document.documentElement;
     if (theme === "dark") root.classList.add("dark");
@@ -51,7 +49,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     [theme]
   );
 
-  // Script inline que corre antes de hidratar (Next lo coloca en <head>)
   const inline = `
 (function() {
   try {

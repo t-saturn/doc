@@ -3,35 +3,15 @@ import { Separator } from "./ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
 import { FileText, Image as ImageIcon, Code2, StickyNote } from "lucide-react";
-import { DocumentSection, DocumentSubsection } from "./sidebar";
+import { DocumentContent, DocumentSection, DocumentSubsection } from "@/types/docs";
 
-interface ContentViewProps {
+type ContentViewProps = {
   section?: DocumentSection;
   subsection?: DocumentSubsection;
   content: DocumentContent;
-}
+};
 
-export interface DocumentContent {
-  description: string;
-  annotations: string;
-  codeBlocks: CodeBlock[];
-  images: ImageContent[];
-  notes: string;
-}
-
-export interface CodeBlock {
-  language: string;
-  code: string;
-  title: string;
-}
-
-export interface ImageContent {
-  url: string;
-  alt: string;
-  caption: string;
-}
-
-export function ContentView({ section, subsection, content }: ContentViewProps) {
+export const ContentView = ({ section, subsection, content }: ContentViewProps) => {
   if (!section || !subsection) {
     return (
       <div className="flex flex-1 justify-center items-center">
@@ -48,7 +28,6 @@ export function ContentView({ section, subsection, content }: ContentViewProps) 
     <div className="flex-1">
       <ScrollArea className="h-[calc(100vh-4rem)]">
         <div className="space-y-8 mx-auto p-6 max-w-4xl">
-          {/* Header */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="rounded-full size-4" style={{ backgroundColor: section.color || "#6b7280" }} />
@@ -60,7 +39,6 @@ export function ContentView({ section, subsection, content }: ContentViewProps) 
 
           <Separator />
 
-          {/* Description */}
           {content.description && (
             <Card>
               <CardHeader>
@@ -77,7 +55,6 @@ export function ContentView({ section, subsection, content }: ContentViewProps) 
             </Card>
           )}
 
-          {/* Annotations */}
           {content.annotations && (
             <Card>
               <CardHeader>
@@ -94,7 +71,6 @@ export function ContentView({ section, subsection, content }: ContentViewProps) 
             </Card>
           )}
 
-          {/* Code Blocks */}
           {content.codeBlocks.length > 0 && (
             <Card>
               <CardHeader>
@@ -119,7 +95,6 @@ export function ContentView({ section, subsection, content }: ContentViewProps) 
             </Card>
           )}
 
-          {/* Images */}
           {content.images.length > 0 && (
             <Card>
               <CardHeader>
@@ -140,7 +115,6 @@ export function ContentView({ section, subsection, content }: ContentViewProps) 
             </Card>
           )}
 
-          {/* Notes */}
           {content.notes && (
             <Card className="border-l-4 border-l-primary">
               <CardHeader>
@@ -160,7 +134,7 @@ export function ContentView({ section, subsection, content }: ContentViewProps) 
       </ScrollArea>
     </div>
   );
-}
+};
 
 // Simple markdown renderer component
 function MarkdownRenderer({ content }: { content: string }) {

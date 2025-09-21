@@ -6,21 +6,18 @@ import { Input } from "./ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Badge } from "./ui/badge";
 import Image from "next/image";
-import { useTheme } from "./providers/theme-provider";
 
-interface NavbarProps {
-  onToggleSidebar: () => void;
-  isAdmin: boolean;
-  onToggleAdmin: () => void;
-}
+import { useTheme } from "@/components/providers/theme-provider";
+import { useUIState } from "@/components/providers/ui-state";
 
-export function Navbar({ onToggleSidebar, isAdmin, onToggleAdmin }: NavbarProps) {
+export function Navbar() {
   const { isDark, toggleTheme } = useTheme();
+  const { isAdmin, toggleAdmin, toggleSidebar } = useUIState();
 
   return (
     <header className="top-0 z-50 sticky bg-background/95 supports-[backdrop-filter]:bg-background/60 backdrop-blur border-b h-16">
       <div className="flex items-center gap-4 px-4 h-full">
-        <Button variant="ghost" size="sm" className="lg:hidden" onClick={onToggleSidebar}>
+        <Button variant="ghost" size="sm" className="lg:hidden" onClick={toggleSidebar}>
           <Menu className="size-5" />
         </Button>
 
@@ -51,7 +48,7 @@ export function Navbar({ onToggleSidebar, isAdmin, onToggleAdmin }: NavbarProps)
             {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </Button>
 
-          <Button variant={isAdmin ? "default" : "outline"} size="sm" onClick={onToggleAdmin} className="hidden sm:flex">
+          <Button variant={isAdmin ? "default" : "outline"} size="sm" onClick={toggleAdmin} className="hidden sm:flex">
             <User className="size-4" />
             <span className="ml-2">{isAdmin ? "Modo Admin" : "Modo Usuario"}</span>
           </Button>
