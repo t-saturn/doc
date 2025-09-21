@@ -105,7 +105,6 @@ export function AdminPanel({ sections, onUpdateSections, onUpdateContent, active
                 <CardTitle>Gestión de Secciones</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {/* Add New Section */}
                 <div className="flex gap-2">
                   <Input
                     placeholder="Nueva sección..."
@@ -120,7 +119,6 @@ export function AdminPanel({ sections, onUpdateSections, onUpdateContent, active
 
                 <Separator />
 
-                {/* Sections List */}
                 <div className="space-y-4">
                   {sections.map((section) => (
                     <Card key={section.id}>
@@ -140,7 +138,6 @@ export function AdminPanel({ sections, onUpdateSections, onUpdateContent, active
                           </div>
                         </div>
 
-                        {/* Subsections */}
                         <div className="space-y-2 pl-6">
                           {section.subsections.map((subsection) => (
                             <div key={subsection.id} className="flex justify-between items-center bg-muted/50 p-2 rounded">
@@ -151,7 +148,6 @@ export function AdminPanel({ sections, onUpdateSections, onUpdateContent, active
                             </div>
                           ))}
 
-                          {/* Add Subsection */}
                           <div className="flex gap-2">
                             <Input
                               placeholder="Nueva subsección..."
@@ -267,7 +263,6 @@ function ContentEditor({ content, onSave }: { content?: DocumentContent; onSave:
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Description */}
         <div className="space-y-2">
           <Label>Descripción General</Label>
           <Textarea
@@ -278,7 +273,6 @@ function ContentEditor({ content, onSave }: { content?: DocumentContent; onSave:
           />
         </div>
 
-        {/* Annotations */}
         <div className="space-y-2">
           <Label>Anotaciones</Label>
           <Textarea
@@ -289,7 +283,6 @@ function ContentEditor({ content, onSave }: { content?: DocumentContent; onSave:
           />
         </div>
 
-        {/* Code Blocks */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <Label>Bloques de Código</Label>
@@ -327,7 +320,6 @@ function ContentEditor({ content, onSave }: { content?: DocumentContent; onSave:
           ))}
         </div>
 
-        {/* Notes */}
         <div className="space-y-2">
           <Label>Notas Adicionales</Label>
           <Textarea
@@ -338,7 +330,6 @@ function ContentEditor({ content, onSave }: { content?: DocumentContent; onSave:
           />
         </div>
 
-        {/* Images */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <div>
@@ -413,7 +404,6 @@ function ContentEditor({ content, onSave }: { content?: DocumentContent; onSave:
             </Card>
           ))}
 
-          {/* Helper Text */}
           {editContent.images.length === 0 && (
             <Card className="border-dashed">
               <CardContent className="p-6 text-center">
@@ -424,7 +414,6 @@ function ContentEditor({ content, onSave }: { content?: DocumentContent; onSave:
             </Card>
           )}
 
-          {/* URL Examples */}
           <Card className="bg-muted/30">
             <CardContent className="p-4">
               <div className="flex items-start gap-2 mb-2">

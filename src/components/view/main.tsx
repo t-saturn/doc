@@ -4,9 +4,8 @@ import { AdminPanel } from "@/components/admin-panel";
 import { ContentView } from "@/components/content-view";
 import { Navbar } from "@/components/navbar";
 import { Sidebar } from "@/components/sidebar";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-// Type definitions
 interface DocumentSubsection {
   id: string;
   title: string;
@@ -41,7 +40,6 @@ interface DocumentContent {
   notes: string;
 }
 
-// Mock data
 const initialSections: DocumentSection[] = [
   {
     id: "getting-started",
@@ -166,7 +164,6 @@ interface DocumentContent {
 };
 
 export function Main() {
-  const [isDark, setIsDark] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [sections, setSections] = useState<DocumentSection[]>(initialSections);
@@ -175,19 +172,6 @@ export function Main() {
   const [content, setContent] = useState<Record<string, DocumentContent>>({
     "getting-started-introduction": mockContent,
   });
-
-  // Theme management
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [isDark]);
-
-  const handleToggleTheme = () => {
-    setIsDark(!isDark);
-  };
 
   const handleToggleAdmin = () => {
     setIsAdmin(!isAdmin);
@@ -200,7 +184,7 @@ export function Main() {
   const handleSelectSubsection = (sectionId: string, subsectionId: string) => {
     setActiveSection(sectionId);
     setActiveSubsection(subsectionId);
-    setIsSidebarOpen(false); // Close sidebar on mobile after selection
+    setIsSidebarOpen(false);
   };
 
   const handleUpdateSections = (newSections: DocumentSection[]) => {
@@ -231,11 +215,9 @@ export function Main() {
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Navbar */}
-      <Navbar onToggleTheme={handleToggleTheme} isDark={isDark} onToggleSidebar={handleToggleSidebar} isAdmin={isAdmin} onToggleAdmin={handleToggleAdmin} />
+      <Navbar onToggleSidebar={handleToggleSidebar} isAdmin={isAdmin} onToggleAdmin={handleToggleAdmin} />
 
       <div className="flex">
-        {/* Sidebar */}
         {!isAdmin && (
           <Sidebar
             sections={sections}
@@ -247,7 +229,6 @@ export function Main() {
           />
         )}
 
-        {/* Main Content */}
         <main className={`flex-1 ${!isAdmin ? "" : ""}`}>
           {isAdmin ? (
             <AdminPanel

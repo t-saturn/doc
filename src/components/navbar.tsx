@@ -1,19 +1,22 @@
+"use client";
+
 import { Search, Sun, Moon, Globe, User, Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Badge } from "./ui/badge";
 import Image from "next/image";
+import { useTheme } from "./providers/theme-provider";
 
 interface NavbarProps {
-  onToggleTheme: () => void;
-  isDark: boolean;
   onToggleSidebar: () => void;
   isAdmin: boolean;
   onToggleAdmin: () => void;
 }
 
-export function Navbar({ onToggleTheme, isDark, onToggleSidebar, isAdmin, onToggleAdmin }: NavbarProps) {
+export function Navbar({ onToggleSidebar, isAdmin, onToggleAdmin }: NavbarProps) {
+  const { isDark, toggleTheme } = useTheme();
+
   return (
     <header className="top-0 z-50 sticky bg-background/95 supports-[backdrop-filter]:bg-background/60 backdrop-blur border-b h-16">
       <div className="flex items-center gap-4 px-4 h-full">
@@ -22,11 +25,6 @@ export function Navbar({ onToggleTheme, isDark, onToggleSidebar, isAdmin, onTogg
         </Button>
 
         <Image src="https://raw.githubusercontent.com/t-saturn/resources/gra/img/logo.png" alt="Logo" width={32} height={32} className="rounded-lg object-contain" />
-
-        {/* <div className="flex items-center gap-2">
-          <img src="https://raw.githubusercontent.com/t-saturn/resources/gra/img/logo.png" alt="Logo" className="rounded-lg size-8 object-contain" />
-          <h1 className="hidden sm:block font-semibold">SGD</h1>
-        </div> */}
 
         <div className="flex-1 max-w-md">
           <div className="relative">
@@ -49,7 +47,7 @@ export function Navbar({ onToggleTheme, isDark, onToggleSidebar, isAdmin, onTogg
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button variant="ghost" size="sm" onClick={onToggleTheme}>
+          <Button variant="ghost" size="sm" onClick={toggleTheme} aria-label="Cambiar tema">
             {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </Button>
 

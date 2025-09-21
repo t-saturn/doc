@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronRight, FileText, FolderOpen, Folder } from "lucide-react";
+import { ChevronRight, FileText } from "lucide-react";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
@@ -31,10 +31,8 @@ interface SidebarProps {
 export function Sidebar({ sections, activeSection, activeSubsection, onSelectSubsection, isOpen, onClose }: SidebarProps) {
   return (
     <>
-      {/* Mobile Overlay */}
       {isOpen && <div className="lg:hidden z-40 fixed inset-0 bg-black/20" onClick={onClose} />}
 
-      {/* Sidebar */}
       <aside
         className={cn(
           "top-16 left-0 z-50 lg:z-auto lg:static fixed bg-sidebar border-r w-80 h-[calc(100vh-4rem)] transition-transform lg:translate-x-0 duration-300",
