@@ -137,7 +137,7 @@ export const ContentView = ({ section, subsection, content }: ContentViewProps) 
 };
 
 // Simple markdown renderer component
-function MarkdownRenderer({ content }: { content: string }) {
+const MarkdownRenderer = ({ content }: { content: string }) => {
   // This is a simple implementation. In a real app, you'd use a proper markdown parser
   const lines = content.split("\n");
 
@@ -176,4 +176,4 @@ function MarkdownRenderer({ content }: { content: string }) {
       })}
     </div>
   );
-}
+};

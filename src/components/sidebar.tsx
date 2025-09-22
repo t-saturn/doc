@@ -1,35 +1,25 @@
+"use client";
+
 import { ChevronRight, FileText } from "lucide-react";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { cn } from "@/lib/utils";
-import { DocumentSection } from "@/types/docs";
+import { useDocs } from "@/components/providers/docs-provider";
+import { useUIState } from "@/components/providers/ui-state";
 
-type SidebarProps = {
-  sections: DocumentSection[];
-  activeSection?: string;
-  activeSubsection?: string;
-  onSelectSubsection: (sectionId: string, subsectionId: string) => void;
-  isOpen: boolean;
-  onClose: () => void;
-};
+export function Sidebar() {
+  const { sections, activeSection, activeSubsection, selectSubsection } = useDocs();
+  const { isSidebarOpen, closeSidebar } = useUIState();
 
-type SectionItemProps = {
-  section: DocumentSection;
-  isActive: boolean;
-  activeSubsection?: string;
-  onSelectSubsection: (sectionId: string, subsectionId: string) => void;
-};
-
-export const Sidebar = ({ sections, activeSection, activeSubsection, onSelectSubsection, isOpen, onClose }: SidebarProps) => {
   return (
     <>
-      {isOpen && <div className="lg:hidden z-40 fixed inset-0 bg-black/20" onClick={onClose} />}
+      {isSidebarOpen && <div className="lg:hidden z-40 fixed inset-0 bg-black/20" onClick={closeSidebar} />}
 
       <aside
         className={cn(
           "top-16 left-0 z-50 lg:z-auto lg:static fixed bg-sidebar border-r w-80 h-[calc(100vh-4rem)] transition-transform lg:translate-x-0 duration-300",
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <ScrollArea className="h-full">
@@ -40,10 +30,16 @@ export const Sidebar = ({ sections, activeSection, activeSubsection, onSelectSub
               {sections.map((section) => (
                 <SectionItem
                   key={section.id}
-                  section={section}
+                  sectionId={section.id}
+                  title={section.title}
+                  color={section.color}
                   isActive={activeSection === section.id}
                   activeSubsection={activeSubsection}
-                  onSelectSubsection={onSelectSubsection}
+                  onClick={(subId) => {
+                    selectSubsection(section.id, subId);
+                    closeSidebar();
+                  }}
+                  subsections={section.subsections}
                 />
               ))}
             </nav>
@@ -52,32 +48,42 @@ export const Sidebar = ({ sections, activeSection, activeSubsection, onSelectSub
       </aside>
     </>
   );
+}
+
+type SectionItemProps = {
+  sectionId: string;
+  title: string;
+  color?: string;
+  isActive: boolean;
+  activeSubsection?: string;
+  subsections: { id: string; title: string; order: number }[];
+  onClick: (subsectionId: string) => void;
 };
 
-const SectionItem: React.FC<SectionItemProps> = ({ section, isActive, activeSubsection, onSelectSubsection }) => {
+function SectionItem({ title, color, isActive, activeSubsection, subsections, onClick }: SectionItemProps) {
   return (
     <Collapsible defaultOpen={isActive}>
       <CollapsibleTrigger asChild>
         <Button variant="ghost" className="justify-start gap-2 px-2 py-2 w-full h-auto">
           <ChevronRight className="size-4 [&[data-state=open]]:rotate-90 transition-transform" />
-          <div className="flex-shrink-0 rounded-full size-3" style={{ backgroundColor: section.color || "#6b7280" }} />
-          <span className="text-left truncate">{section.title}</span>
+          <div className="flex-shrink-0 rounded-full size-3" style={{ backgroundColor: color || "#6b7280" }} />
+          <span className="text-left truncate">{title}</span>
         </Button>
       </CollapsibleTrigger>
 
       <CollapsibleContent className="space-y-1 mt-1 pl-6">
-        {section.subsections.map((subsection) => (
+        {subsections.map((sub) => (
           <Button
-            key={subsection.id}
+            key={sub.id}
             variant="ghost"
-            className={cn("justify-start gap-2 px-2 py-1.5 w-full h-auto text-sm", activeSubsection === subsection.id && "bg-sidebar-accent text-sidebar-accent-foreground")}
-            onClick={() => onSelectSubsection(section.id, subsection.id)}
+            className={cn("justify-start gap-2 px-2 py-1.5 w-full h-auto text-sm", activeSubsection === sub.id && "bg-sidebar-accent text-sidebar-accent-foreground")}
+            onClick={() => onClick(sub.id)}
           >
             <FileText className="flex-shrink-0 size-3" />
-            <span className="text-left truncate">{subsection.title}</span>
+            <span className="text-left truncate">{sub.title}</span>
           </Button>
         ))}
       </CollapsibleContent>
     </Collapsible>
   );
-};
+}

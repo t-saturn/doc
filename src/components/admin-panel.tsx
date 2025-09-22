@@ -11,8 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Separator } from "./ui/separator";
-import { DocumentContent, CodeBlock, ImageContent } from "@/components/content-view";
-import { DocumentSection, DocumentSubsection } from "@/types/docs";
+import { CodeBlock, DocumentContent, DocumentSection, DocumentSubsection, ImageContent } from "@/types/docs";
 
 interface AdminPanelProps {
   sections: DocumentSection[];

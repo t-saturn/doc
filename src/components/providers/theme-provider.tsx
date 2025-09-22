@@ -13,7 +13,7 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
@@ -69,10 +69,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
     </>
   );
-}
+};
 
-export function useTheme() {
+export const useTheme = () => {
   const ctx = useContext(ThemeContext);
   if (!ctx) throw new Error("useTheme debe usarse dentro de <ThemeProvider>");
   return ctx;
-}
+};
