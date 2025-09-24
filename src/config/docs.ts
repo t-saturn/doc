@@ -37,5 +37,4 @@ export const docsTree: DocumentSection[] = [
       },
     ],
   },
-  // ...más secciones
 ];

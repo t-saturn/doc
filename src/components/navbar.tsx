@@ -17,7 +17,10 @@ export function Navbar() {
   return (
     <header className="top-0 z-50 sticky bg-background/95 supports-[backdrop-filter]:bg-background/60 backdrop-blur border-b h-16">
       <div className="flex items-center px-4 h-full">
-        <Image src="https://raw.githubusercontent.com/t-saturn/resources/gra/img/logo.png" alt="Logo" width={32} height={32} className="rounded-lg object-contain" />
+        <div className="flex flex-row items-center gap-2">
+          <Image src="https://raw.githubusercontent.com/t-saturn/resources/mdk/img/logo.png" alt="Logo" width={32} height={32} className="rounded-lg object-contain" />
+          <p className="font-bold text-xl">Documentación</p>
+        </div>
 
         <div className="flex flex-1 justify-end items-center gap-2 ml-auto">
           <Button variant="ghost" size="sm" className="lg:hidden" onClick={toggleSidebar}>
