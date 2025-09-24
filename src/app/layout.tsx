@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { UIStateProvider } from "@/components/providers/ui-state";
 import { Navbar } from "@/components/navbar";
 import "./globals.css";
+import "highlight.js/styles/github.css";
 import { DocsProvider } from "@/components/providers/docs-provider";
 import { Sidebar } from "@/components/sidebar";
 

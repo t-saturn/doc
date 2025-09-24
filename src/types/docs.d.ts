@@ -5,14 +5,6 @@ export interface DocumentSubsection {
   order: number;
 }
 
-export interface DocumentSection {
-  id: string;
-  title: string;
-  color?: string;
-  order: number;
-  subsections: DocumentSubsection[];
-}
-
 export interface CodeBlock {
   language: string;
   title: string;
@@ -25,10 +17,29 @@ export interface ImageContent {
   caption: string;
 }
 
-export interface DocumentContent {
-  description: string;
-  annotations: string;
-  codeBlocks: CodeBlock[];
-  images: ImageContent[];
-  notes: string;
-}
+export type DocTopic = {
+  id: string;
+  title: string;
+  order: number;
+  file: string; // ruta al .md relativo a /src/data
+};
+
+export type DocSubsection = {
+  id: string;
+  title: string;
+  order: number;
+  topics: DocTopic[];
+};
+
+export type DocumentSection = {
+  id: string;
+  title: string;
+  color?: string;
+  order: number;
+  subsections: DocSubsection[];
+};
+
+export type DocumentContent = {
+  html: string; // contenido ya renderizado
+  sourcePath: string; // ruta real usada
+};

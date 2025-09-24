@@ -1,76 +1,86 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// src/components/providers/docs-provider.tsx
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState, useEffect } from "react";
 import type { DocumentSection, DocumentContent } from "@/types/docs";
-import { initialSections, mockContent } from "@/mocks/docs";
+import { docsTree } from "@/config/docs";
 
 type DocsContextType = {
   sections: DocumentSection[];
   activeSection: string;
   activeSubsection: string;
+  activeTopic: string;
 
-  // Selectores útiles
   currentSection?: DocumentSection;
-  currentSubsection?: { id: string; title: string; order: number } | undefined;
+  currentSubsection?: DocumentSection["subsections"][number];
+  currentTopic?: DocumentSection["subsections"][number]["topics"][number];
   currentContent?: DocumentContent;
 
   // Acciones
-  selectSubsection: (sectionId: string, subsectionId: string) => void;
-  updateSections: (newSections: DocumentSection[]) => void;
-  updateContent: (sectionId: string, subsectionId: string, newContent: DocumentContent) => void;
+  selectTopic: (sectionId: string, subsectionId: string, topicId: string) => void;
 };
 
 const DocsContext = createContext<DocsContextType | null>(null);
 
 export function DocsProvider({ children }: { children: React.ReactNode }) {
-  const [sections, setSections] = useState<DocumentSection[]>(initialSections);
-  const [activeSection, setActiveSection] = useState<string>(initialSections[0]?.id ?? "getting-started");
-  const [activeSubsection, setActiveSubsection] = useState<string>(initialSections[0]?.subsections[0]?.id ?? "introduction");
+  const sections = docsTree.slice().sort((a: { order: number }, b: { order: number }) => a.order - b.order);
 
-  const [content, setContent] = useState<Record<string, DocumentContent>>({
-    [`${initialSections[0].id}-${initialSections[0].subsections[0].id}`]: mockContent,
-  });
+  const defaultSection = sections[0];
+  const defaultSub = defaultSection?.subsections?.[0];
+  const defaultTopic = defaultSub?.topics?.[0];
 
-  const selectSubsection = (sectionId: string, subsectionId: string) => {
+  const [activeSection, setActiveSection] = useState(defaultSection?.id ?? "");
+  const [activeSubsection, setActiveSubsection] = useState(defaultSub?.id ?? "");
+  const [activeTopic, setActiveTopic] = useState(defaultTopic?.id ?? "");
+
+  const [contentCache, setContentCache] = useState<Record<string, DocumentContent>>({});
+
+  const key = `${activeSection}-${activeSubsection}-${activeTopic}`;
+
+  const currentSection = sections.find((s: { id: any }) => s.id === activeSection);
+  const currentSubsection = currentSection?.subsections.find((s: { id: any }) => s.id === activeSubsection);
+  const currentTopic = currentSubsection?.topics.find((t: { id: any }) => t.id === activeTopic);
+  const currentContent = contentCache[key];
+
+  const selectTopic = (sectionId: string, subsectionId: string, topicId: string) => {
     setActiveSection(sectionId);
     setActiveSubsection(subsectionId);
+    setActiveTopic(topicId);
   };
 
-  const updateSections = (newSections: DocumentSection[]) => {
-    setSections(newSections);
+  // Cargar contenido cuando cambian los activos
+  useEffect(() => {
+    if (!activeSection || !activeSubsection || !activeTopic) return;
 
-    const section = newSections.find((s) => s.id === activeSection) ?? newSections[0];
-    const subsection = section?.subsections.find((sub) => sub.id === activeSubsection) ?? section?.subsections?.[0];
+    const load = async () => {
+      const cacheKey = `${activeSection}-${activeSubsection}-${activeTopic}`;
+      if (contentCache[cacheKey]) return;
 
-    if (section && subsection) {
-      setActiveSection(section.id);
-      setActiveSubsection(subsection.id);
-    }
-  };
+      const res = await fetch(`/api/docs?sectionId=${activeSection}&subsectionId=${activeSubsection}&topicId=${activeTopic}`, { cache: "no-store" });
+      if (!res.ok) return;
 
-  const updateContent = (sectionId: string, subsectionId: string, newContent: DocumentContent) => {
-    const key = `${sectionId}-${subsectionId}`;
-    setContent((prev) => ({ ...prev, [key]: newContent }));
-  };
+      const data = (await res.json()) as DocumentContent;
+      setContentCache((prev) => ({ ...prev, [cacheKey]: data }));
+    };
 
-  const key = `${activeSection}-${activeSubsection}`;
-  const currentContent = content[key];
-  const currentSection = sections.find((s) => s.id === activeSection);
-  const currentSubsection = currentSection?.subsections.find((s) => s.id === activeSubsection);
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeSection, activeSubsection, activeTopic]);
 
   const value = useMemo<DocsContextType>(
     () => ({
       sections,
       activeSection,
       activeSubsection,
+      activeTopic,
       currentSection,
       currentSubsection,
+      currentTopic,
       currentContent,
-      selectSubsection,
-      updateSections,
-      updateContent,
+      selectTopic,
     }),
-    [sections, activeSection, activeSubsection, currentSection, currentSubsection, currentContent]
+    [sections, activeSection, activeSubsection, activeTopic, currentSection, currentSubsection, currentTopic, currentContent]
   );
 
   return <DocsContext.Provider value={value}>{children}</DocsContext.Provider>;
