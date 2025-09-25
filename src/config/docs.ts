@@ -15,11 +15,12 @@ export const docsTree: DocumentSection[] = [
     title: "OBJETIVOS Y ALCANCE",
     order: 2,
     color: "#10b981",
-    subsections: [
-      { id: "objectives", title: "Objetivos", order: 1, file: "objectives.md" },
-      { id: "scope", title: "Alcance", order: 2, file: "scope.md" },
-      { id: "defs", title: "Definiciones y Abreviaturas", order: 3, file: "definitions.md" },
-    ],
+    file: "objectives-scope.md",
+    // subsections: [
+    //   { id: "objectives", title: "Objetivos", order: 1, file: "objectives.md" },
+    //   { id: "scope", title: "Alcance", order: 2, file: "scope.md" },
+    //   { id: "defs", title: "Definiciones y Abreviaturas", order: 3, file: "definitions.md" },
+    // ],
   },
   // Nivel 3: sección -> subsección -> temas
   {
