@@ -9,7 +9,6 @@ export const docsTree: DocumentSection[] = [
     color: "#0ea5e9",
     file: "introduction.md",
   },
-  // Nivel 2: sección -> subsección (con archivo)
   {
     id: "objectives-scope",
     title: "OBJETIVOS Y ALCANCE",
@@ -22,7 +21,18 @@ export const docsTree: DocumentSection[] = [
     //   { id: "defs", title: "Definiciones y Abreviaturas", order: 3, file: "definitions.md" },
     // ],
   },
-  // Nivel 3: sección -> subsección -> temas
+  {
+    id: "toolbar-main-buttons",
+    title: "BARRA DE HERRAMIENTAS / BOTONES PRINCIPALES DEL SISTEMA",
+    order: 3,
+    color: "#10b981",
+    file: "toolbar-main-buttons.md",
+    // subsections: [
+    //   { id: "objectives", title: "Objetivos", order: 1, file: "objectives.md" },
+    //   { id: "scope", title: "Alcance", order: 2, file: "scope.md" },
+    //   { id: "defs", title: "Definiciones y Abreviaturas", order: 3, file: "definitions.md" },
+    // ],
+  },
   {
     id: "system-description",
     title: "DESCRIPCIÓN DEL SISTEMA",

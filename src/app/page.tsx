@@ -1,4 +1,3 @@
-// src/app/page.tsx (Server Component)
 import fs from "node:fs/promises";
 import path from "node:path";
 import { md } from "@/lib/markdown";
