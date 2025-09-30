@@ -29,7 +29,7 @@ Guiar al usuario a través de los procedimientos o instrucciones de las diferent
 
 ### Abreviaturas
 
-| **Sigla** | Significado                                   |
+| **Sigla** | **Significado**                               |
 | --------- | --------------------------------------------- |
 | **AD**    | Active Directory                              |
 | **DNI**   | Documento Nacional de Identidad               |

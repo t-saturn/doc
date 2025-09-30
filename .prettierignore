@@ -1,0 +1,63 @@
+# === Build outputs (Next.js) ===
+.next/
+.next/cache/
+out/
+dist/
+build/
+
+# === Dependencias y paquetes ===
+node_modules/
+.pnp/
+.pnpm-store/
+
+# === Vercel / Turbo / cachés varias ===
+.vercel/
+.turbo/
+.cache/
+.swc/
+.cache-loader/
+.eslintcache
+
+# === Env y secretos ===
+.env
+.env.*.local
+*.local
+
+# === Logs ===
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# === Artefactos de pruebas ===
+coverage/
+cypress/videos/
+cypress/screenshots/
+playwright-report/
+test-results/
+
+# === Archivos grandes/estáticos en public (no formatear mapas/minificados) ===
+public/**/*.map
+public/**/*.min.js
+public/**/*.min.css
+public/**/vendor/**
+public/**/*.{png,jpg,jpeg,gif,webp,avif,svg,ico,mp3,mp4,ogg,ogv,ttf,otf,woff,woff2}
+
+# === Storybook (si lo usas) ===
+storybook-static/
+
+# === Migraciones Prisma (SQL autogenerado) ===
+prisma/migrations/**/migration.sql
+
+# === Lockfiles (no necesita Prettier) ===
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lock
+
+# === IDE/OS ===
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
