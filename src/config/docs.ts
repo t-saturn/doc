@@ -27,16 +27,18 @@ export const docsTree: DocumentSection[] = [
     order: 3,
     color: "#10b981",
     file: "toolbar-main-buttons.md",
-    // subsections: [
-    //   { id: "objectives", title: "Objetivos", order: 1, file: "objectives.md" },
-    //   { id: "scope", title: "Alcance", order: 2, file: "scope.md" },
-    //   { id: "defs", title: "Definiciones y Abreviaturas", order: 3, file: "definitions.md" },
-    // ],
   },
   {
     id: "system-description",
     title: "DESCRIPCIÓN DEL SISTEMA",
     order: 4,
+    color: "#10b981",
+    file: "system-description.md",
+  },
+  {
+    id: "system-description-test",
+    title: "DESCRIPCIÓN DEL SISTEMA",
+    order: 5,
     color: "#f59e0b",
     subsections: [
       {
@@ -53,5 +55,5 @@ export const docsTree: DocumentSection[] = [
     ],
   },
   // Ejemplo extra: barra de herramientas (nivel 1)
-  { id: "toolbar", title: "BARRA DE HERRAMIENTAS", order: 3, color: "#a78bfa", file: "toolbar.md" },
+  { id: "toolbar", title: "BARRA DE HERRAMIENTAS", order: 6, color: "#a78bfa", file: "toolbar.md" },
 ];
